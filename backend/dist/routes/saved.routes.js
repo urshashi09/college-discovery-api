@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const saved_controller_1 = require("../controllers/saved.controller");
+const auth_middleware_1 = require("../middleware/auth.middleware");
+const router = (0, express_1.Router)();
+router.post("/:collegeId", auth_middleware_1.protect, saved_controller_1.saveCollege);
+router.get("/", auth_middleware_1.protect, saved_controller_1.getSavedColleges);
+router.delete("/:collegeId", auth_middleware_1.protect, saved_controller_1.removeSavedCollege);
+exports.default = router;
