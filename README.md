@@ -2,8 +2,9 @@
 
 A production-grade, highly performant backend API engine for a college discovery, comparison, and admission predictor platform. Built using Node.js, Express, TypeScript, and PostgreSQL.
 
-Deployed backend API: [https://college-discovery-api-backend.onrender.com]
-Swagger API Docs: [https://college-discovery-api-backend.onrender.com/api/docs]
+* Deployed backend API: [https://college-discovery-api-backend.onrender.com]
+
+* Swagger API Docs: [https://college-discovery-api-backend.onrender.com/api/docs]
 
 ---
 
