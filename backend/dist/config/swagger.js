@@ -15,7 +15,12 @@ exports.swaggerSpec = {
     },
     servers: [
         {
-            url: "http://localhost:5000"
+            url: "https://college-discovery-api-backend.onrender.com",
+            description: "Production Server"
+        },
+        {
+            url: "http://localhost:5000",
+            description: "Local Development Server"
         }
     ],
     paths: {
