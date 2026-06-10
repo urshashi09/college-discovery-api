@@ -10,8 +10,14 @@ export const predictCollege = async (
 
     const predictions = await prisma.predictorCutoff.findMany({
       where: {
-        examName,
-        category,
+        examName: {
+          equals: examName,
+          mode: "insensitive"
+        },
+        category: {
+          equals: category,
+          mode: "insensitive"
+        },
         cutoffRank: {
           gte: Number(rank)
         }
