@@ -7,6 +7,7 @@ export const getColleges = async (
 ) => {
   try {
     const {
+      search,
       location,
       rating,
       minFees,
@@ -18,37 +19,57 @@ export const getColleges = async (
     const pageNumber = Number(page);
     const limitNumber = Number(limit);
 
+    const whereClause = {
+      OR: search
+        ? [
+            {
+              name: {
+                contains: String(search),
+                mode: "insensitive" as const
+              }
+            },
+            {
+              location: {
+                contains: String(search),
+                mode: "insensitive" as const
+              }
+            }
+          ]
+        : undefined,
+
+      location: location
+        ? {
+            contains: String(location),
+            mode: "insensitive" as const
+          }
+        : undefined,
+
+      rating: rating
+        ? {
+            gte: Number(rating)
+          }
+        : undefined,
+
+      fees: {
+        gte: minFees
+          ? Number(minFees)
+          : undefined,
+
+        lte: maxFees
+          ? Number(maxFees)
+          : undefined
+      }
+    };
+
     const colleges = await prisma.college.findMany({
-      where: {
-        location: location
-          ? {
-              contains: String(location),
-              mode: "insensitive"
-            }
-          : undefined,
-
-        rating: rating
-          ? {
-              gte: Number(rating)
-            }
-          : undefined,
-
-        fees: {
-          gte: minFees
-            ? Number(minFees)
-            : undefined,
-
-          lte: maxFees
-            ? Number(maxFees)
-            : undefined
-        }
-      },
-
+      where: whereClause,
       skip: (pageNumber - 1) * limitNumber,
       take: limitNumber
     });
 
-    const total = await prisma.college.count();
+    const total = await prisma.college.count({
+      where: whereClause
+    });
 
     res.json({
       success: true,
@@ -56,8 +77,9 @@ export const getColleges = async (
       page: pageNumber,
       data: colleges
     });
-
   } catch (error) {
+    console.error(error);
+
     res.status(500).json({
       success: false,
       message: "Server error"
@@ -92,6 +114,8 @@ export const getCollegeById = async (
       data: college
     });
   } catch (error) {
+    console.error(error);
+
     res.status(500).json({
       success: false,
       message: "Server error"

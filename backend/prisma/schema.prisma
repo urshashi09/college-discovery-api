@@ -27,6 +27,8 @@ model College {
   reviews     Review[]
 
   savedBy     SavedCollege[]
+
+  predictorCutoffs PredictorCutoff[]
 }
 
 model Course {
@@ -56,4 +58,17 @@ model SavedCollege {
   college     College @relation(fields: [collegeId], references: [id])
 
   @@unique([userId, collegeId])
+}
+
+
+model PredictorCutoff {
+  id          Int      @id @default(autoincrement())
+
+  examName    String
+  category    String
+  cutoffRank  Int
+  courseName  String
+
+  collegeId   Int
+  college     College @relation(fields: [collegeId], references: [id])
 }
